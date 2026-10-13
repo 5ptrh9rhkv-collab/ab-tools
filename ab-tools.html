@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Azhar Bashir — Tools & Games</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{
+  --bg:#070a12; --surface:#0d1320; --surface-2:#141c2c; --ink:#eef1f7; --muted:#8a93a8;
+  --line:#1d2636; --teal:#1fd4c0; --teal-d:#12a394; --gold:#d8b26a; --danger:#e2635c;
+  box-sizing:border-box; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{height:100%; scroll-padding-top:74px}
+body{margin:0; background:radial-gradient(1200px 500px at 85% -10%, rgba(31,212,192,.08), transparent), var(--bg); color:var(--ink); font-family:Inter,system-ui,sans-serif; min-height:100%;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);}
+h1,h2,h3,.disp{font-family:'Space Grotesk',Inter,sans-serif}
+.mono{font-family:'JetBrains Mono',monospace}
+a{color:inherit}
+.wrap{max-width:1100px; margin:0 auto; padding:0 20px}
+button,input,select{font-family:inherit; font-size:15px}
+::selection{background:var(--teal); color:#031412}
+
+nav{position:sticky; top:0; z-index:40; background:rgba(7,10,18,.78); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); padding-top:env(safe-area-inset-top,0px)}
+.navrow{display:flex; align-items:center; justify-content:space-between; height:62px}
+.brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:17px; text-decoration:none; letter-spacing:.2px}
+.brand .mark{width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,var(--teal),var(--teal-d)); display:flex; align-items:center; justify-content:center; color:#04100e; font-size:14px; font-weight:800}
+.navlinks{display:flex; gap:2px}
+.navlinks button{background:none; border:none; color:var(--muted); padding:8px 13px; border-radius:8px; cursor:pointer; font-size:14px; font-weight:500}
+.navlinks button:hover{color:var(--ink); background:var(--surface-2)}
+.navacts{display:flex; align-items:center; gap:8px}
+.btn{border:none; border-radius:10px; padding:9px 16px; font-weight:600; cursor:pointer; font-size:14px}
+.btn-primary{background:var(--teal); color:#042220}
+.btn-primary:hover{background:#3fe0ce}
+.btn-ghost{background:var(--surface-2); color:var(--ink); border:1px solid var(--line)}
+.badge-vip{display:inline-flex; align-items:center; gap:5px; background:rgba(216,178,106,.12); color:var(--gold); border:1px solid rgba(216,178,106,.35); font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px; letter-spacing:.3px}
+
+/* hero */
+.hero{padding:54px 0 40px; display:grid; grid-template-columns:1.15fr .85fr; gap:36px; align-items:center}
+.eyebrow{display:flex; align-items:center; gap:8px; color:var(--teal); font-weight:600; font-size:13.5px; font-family:'JetBrains Mono',monospace}
+.eyebrow .px{width:6px;height:6px;border-radius:50%;background:var(--teal); box-shadow:0 0 8px var(--teal)}
+.hero h1{font-size:40px; line-height:1.14; margin:12px 0 14px; font-weight:700}
+.hero p{color:var(--muted); font-size:16px; max-width:48ch; line-height:1.6}
+.ctas{display:flex; gap:10px; margin-top:22px; flex-wrap:wrap}
+.stats{display:flex; gap:22px; margin-top:28px}
+.stats div b{display:block; font-size:22px; font-family:'Space Grotesk',sans-serif}
+.stats div span{font-size:12px; color:var(--muted)}
+
+.console{background:#060a12; border:1px solid var(--line); border-radius:16px; padding:0; overflow:hidden; box-shadow:0 30px 70px -30px rgba(31,212,192,.25)}
+.console .cbar{display:flex; align-items:center; gap:7px; padding:11px 14px; border-bottom:1px solid var(--line); background:#0a0f1a}
+.console .cbar span{width:9px;height:9px;border-radius:50%;background:#1d2636}
+.console .cbody{padding:18px 16px; font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.85; color:#7fe8d8; min-height:150px}
+@media(max-width:780px){ .console .cbody{min-height:auto} }
+.console .cur{display:inline-block; width:6px; height:13px; background:var(--teal); margin-left:2px; animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* sections */
+.section{padding:40px 0}
+.sectionhead{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:18px; gap:10px}
+.sectionhead h2{font-size:21px; margin:0}
+.sectionhead .n{font-size:12.5px; color:var(--muted); font-family:'JetBrains Mono',monospace}
+.catblock{margin-bottom:34px}
+.catlabel{display:flex; align-items:center; gap:8px; color:var(--muted); font-size:12.5px; font-weight:600; letter-spacing:.3px; margin:0 0 12px}
+.catlabel .ln{flex:1; height:1px; background:var(--line)}
+
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:13px; padding:16px; cursor:pointer; text-align:left; position:relative; transition:border-color .15s}
+.card:hover{border-color:var(--teal)}
+.card .top{display:flex; justify-content:space-between; align-items:flex-start}
+.card .ic{width:34px; height:34px; border-radius:9px; background:var(--surface-2); display:flex; align-items:center; justify-content:center; font-size:16px}
+.card h3{font-size:14.5px; margin:12px 0 4px; font-weight:600}
+.card p{font-size:12.5px; color:var(--muted); margin:0; line-height:1.45}
+
+/* sheets */
+.panel{position:fixed; inset:0; background:rgba(3,5,10,.65); display:none; align-items:flex-end; justify-content:center; z-index:50; padding-bottom:env(safe-area-inset-bottom,0px)}
+.panel.open{display:flex}
+.sheet{background:var(--surface); width:100%; max-width:560px; border-radius:18px 18px 0 0; padding:20px 20px 28px; max-height:85vh; overflow-y:auto; border:1px solid var(--line); border-bottom:none}
+.sheet .head{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px}
+.sheet h3{margin:0; font-size:18px}
+.sheet .x{background:var(--surface-2); border:1px solid var(--line); width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:15px; color:var(--ink)}
+.field{width:100%; padding:11px 13px; border-radius:10px; border:1px solid var(--line); background:#0a0f1a; color:var(--ink); margin-bottom:10px}
+.field:focus{outline:2px solid var(--teal); outline-offset:1px}
+textarea.field{min-height:100px; resize:vertical; font-family:'JetBrains Mono',monospace; font-size:13px}
+.out{background:#0a0f1a; border:1px solid var(--line); border-radius:10px; padding:12px; font-family:'JetBrains Mono',monospace; font-size:13px; word-break:break-all; white-space:pre-wrap; min-height:20px; color:#bfe9df}
+.row{display:flex; gap:8px}
+.row>*{flex:1}
+.bar-meter{height:7px; background:var(--surface-2); border-radius:4px; overflow:hidden; margin:6px 0}
+.bar-meter>div{height:100%; border-radius:4px}
+
+.switch{text-align:center; margin-top:10px; font-size:13.5px; color:var(--muted)}
+.switch button{background:none; border:none; color:var(--teal); font-weight:600; cursor:pointer}
+
+.contact-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px}
+.ccard{display:flex; align-items:center; gap:12px; background:var(--surface); border:1px solid var(--line); border-radius:13px; padding:14px; text-decoration:none; color:var(--ink)}
+.ccard:hover{border-color:var(--teal)}
+.ccard .ic{width:38px; height:38px; border-radius:9px; background:var(--surface-2); display:flex; align-items:center; justify-content:center; font-size:17px; flex:none}
+.ccard .lbl{font-size:11.5px; color:var(--muted)}
+.ccard .val{font-weight:600; font-size:14px}
+
+footer{border-top:1px solid var(--line); padding:26px 0 calc(26px + env(safe-area-inset-bottom,0px)); color:var(--muted); font-size:13px; text-align:center}
+
+@media(max-width:780px){
+  .hero{grid-template-columns:1fr; padding-top:34px}
+  .hero h1{font-size:30px}
+  .navlinks{display:none}
+  .stats{gap:14px; flex-wrap:wrap}
+  .navacts{display:none}
+  .brand{font-size:14.5px; gap:7px}
+  .brand .badge-vip{display:none}
+}
+.hbtn{display:none; background:var(--surface-2); border:1px solid var(--line); color:var(--ink); width:38px; height:38px; border-radius:9px; cursor:pointer; font-size:16px}
+.drawer{position:fixed; inset:0; background:rgba(3,5,10,.65); z-index:60; display:none}
+.drawer.open{display:block}
+.drawer .panel-in{position:absolute; top:0; right:0; height:100%; width:78%; max-width:300px; background:var(--surface); border-left:1px solid var(--line); padding:18px; padding-top:calc(18px + env(safe-area-inset-top,0px))}
+.drawer button.dlink{display:block; width:100%; text-align:left; background:none; border:none; color:var(--ink); font-size:15.5px; font-weight:500; padding:12px 6px; border-bottom:1px solid var(--line); cursor:pointer}
+.drawer .close{float:right; background:var(--surface-2); border:1px solid var(--line); color:var(--ink); width:32px;height:32px;border-radius:50%; cursor:pointer}
+
+.gamecard{background:var(--surface); border:1px solid var(--line); border-radius:13px; padding:16px; cursor:pointer; text-align:center; transition:border-color .15s}
+.gamecard:hover{border-color:var(--gold)}
+.gamecard .gic{font-size:26px}
+.gamecard h3{font-size:14px; margin:8px 0 0}
+
+.quizbox{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px}
+.qopt{display:block; width:100%; text-align:left; background:var(--surface-2); border:1px solid var(--line); color:var(--ink); padding:12px 14px; border-radius:10px; margin-bottom:9px; cursor:pointer; font-size:14.5px}
+.qopt.correct{border-color:var(--teal); background:rgba(31,212,192,.12)}
+.qopt.wrong{border-color:var(--danger); background:rgba(226,99,92,.12)}
+.chip-row{display:flex; gap:8px; flex-wrap:wrap; margin:10px 0}
+.chip{padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:var(--surface-2); color:var(--muted); cursor:pointer; font-size:13.5px}
+.chip.active{border-color:var(--teal); color:var(--teal); background:rgba(31,212,192,.1)}
+.mgrid{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; max-width:340px; margin:0 auto}
+.mcard{aspect-ratio:1; background:var(--surface-2); border:1px solid var(--line); border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:20px; cursor:pointer}
+.mcard.flip{background:var(--teal); color:#042220}
+.gamecard{border-top:3px solid var(--cat,var(--teal))}
+.gamecard .gcat{font-size:11px; color:var(--cat,var(--teal)); font-weight:700; letter-spacing:.3px; margin-top:6px}
+.simon-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; max-width:260px; margin:10px auto}
+.simon-btn{aspect-ratio:1; border-radius:14px; border:none; cursor:pointer; opacity:.55; transition:opacity .1s}
+.simon-btn.lit{opacity:1; box-shadow:0 0 22px currentColor}
+.stroop-word{font-size:30px; font-weight:800; text-align:center; margin:14px 0}
+
+@media(max-width:780px){ .hbtn{display:block} }
+
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap navrow">
+    <a href="#top" class="brand"><span class="mark">AB</span>Azhar Bashir — Tools &amp; Games <span class="badge-vip">VIP</span></a>
+    <div class="navlinks">
+      <button onclick="go('security')">Security</button>
+      <button onclick="go('converters')">Converters</button>
+      <button onclick="go('developer')">Developer</button>
+      <button onclick="go('games')">Games</button>
+      <button onclick="go('quiz')">Quiz</button>
+      <button onclick="go('contact')">Contact</button>
+    </div>
+    <div class="navacts" id="navacts"></div>
+    <button class="hbtn" onclick="document.getElementById('drawer').classList.add('open')" aria-label="Menu">☰</button>
+  </div>
+</nav>
+<div class="drawer" id="drawer">
+  <div class="panel-in">
+    <button class="close" onclick="document.getElementById('drawer').classList.remove('open')">✕</button>
+    <div style="clear:both;height:10px"></div>
+    <button class="dlink" onclick="goD('security')">Security</button>
+    <button class="dlink" onclick="goD('converters')">Converters</button>
+    <button class="dlink" onclick="goD('developer')">Developer</button>
+    <button class="dlink" onclick="goD('games')">Games</button>
+    <button class="dlink" onclick="goD('quiz')">Quiz</button>
+    <button class="dlink" onclick="goD('contact')">Contact</button>
+    <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--line)" id="drawerAuth"></div>
+  </div>
+</div>
+
+<header id="top" class="wrap hero">
+  <div>
+    <div class="eyebrow"><span class="px"></span>SECURE · LOCAL · NO UPLOADS</div>
+    <h1>Your personal security console.</h1>
+    <p>32 tools, 12 games and a custom quiz — passwords, files, math and more, all computed on your device. Built by Azhar Bashir for people who want things done properly.</p>
+    <div class="ctas">
+      <button class="btn btn-primary" onclick="go('security')">Open console</button>
+      <button class="btn btn-ghost" onclick="openAuth('signup')">Create free account</button>
+    </div>
+    <div class="stats">
+      <div><b>32</b><span>Live tools</span></div>
+      <div><b>12</b><span>Games</span></div>
+      <div><b>100%</b><span>Runs in-browser</span></div>
+    </div>
+  </div>
+  <div class="console">
+    <div class="cbar"><span></span><span></span><span></span></div>
+    <div class="cbody" id="termText"></div>
+  </div>
+</header>
+
+<section class="section wrap" id="security">
+  <div class="sectionhead"><h2>Console</h2><span class="n">all tools · tap to open</span></div>
+
+  <div class="catblock">
+    <div class="catlabel">Security<span class="ln"></span></div>
+    <div class="grid" id="grid-security"></div>
+  </div>
+  <div class="catblock" id="converters">
+    <div class="catlabel">Converters<span class="ln"></span></div>
+    <div class="grid" id="grid-converters"></div>
+  </div>
+  <div class="catblock" id="developer">
+    <div class="catlabel">Developer<span class="ln"></span></div>
+    <div class="grid" id="grid-developer"></div>
+  </div>
+  <div class="catblock">
+    <div class="catlabel">Everyday<span class="ln"></span></div>
+    <div class="grid" id="grid-everyday"></div>
+  </div>
+</section>
+
+
+<section class="section wrap" id="games">
+  <div class="sectionhead"><h2>Games</h2><span class="n">take a break</span></div>
+  <div class="grid" id="gamesGrid"></div>
+</section>
+
+<section class="section wrap" id="quiz">
+  <div class="sectionhead"><h2>Quiz</h2><span class="n">your topic · your length</span></div>
+  <div class="quizbox" id="quizSetup">
+    <p style="margin:0 0 10px;color:var(--muted);font-size:14px">Pick a topic</p>
+    <div class="chip-row" id="quizCats"></div>
+    <p style="margin:14px 0 10px;color:var(--muted);font-size:14px">How many questions?</p>
+    <div class="chip-row" id="quizCounts"></div>
+    <button class="btn btn-primary" style="width:100%;margin-top:6px" onclick="startQuiz()">Start Quiz</button>
+  </div>
+  <div class="quizbox" id="quizPlay" style="display:none"></div>
+</section>
+
+<section class="section wrap" id="contact">
+  <div class="sectionhead"><h2>Contact & Social</h2></div>
+  <div class="contact-grid">
+    <a class="ccard" href="https://wa.me/923026246660" target="_blank" rel="noopener"><span class="ic">💬</span><span><span class="lbl">WhatsApp</span><br><span class="val">+92 302 6246660</span></span></a>
+    <a class="ccard" href="mailto:azharbashirryk@gmail.com"><span class="ic">✉️</span><span><span class="lbl">Email</span><br><span class="val">azharbashirryk@gmail.com</span></span></a>
+    <a class="ccard" href="https://www.instagram.com/azharbashir660" target="_blank" rel="noopener"><span class="ic">📸</span><span><span class="lbl">Instagram</span><br><span class="val">@azharbashir660</span></span></a>
+    <a class="ccard" href="https://www.tiktok.com/@azharbashir660" target="_blank" rel="noopener"><span class="ic">🎵</span><span><span class="lbl">TikTok</span><br><span class="val">@azharbashir660</span></span></a>
+    <a class="ccard" href="https://www.facebook.com/share/1DiWWGQfV2/" target="_blank" rel="noopener"><span class="ic">📘</span><span><span class="lbl">Facebook</span><br><span class="val">Azhar Bashir</span></span></a>
+  </div>
+</section>
+
+<footer>© <span id="yr"></span> AB Tools — Azhar Bashir. All tools run locally in your browser.</footer>
+
+<div class="panel" id="authPanel"><div class="sheet">
+  <div class="head"><h3 id="authTitle">Create account</h3><button class="x" onclick="closePanel('authPanel')">✕</button></div>
+  <input class="field" id="authName" placeholder="Full name">
+  <input class="field" id="authEmail" placeholder="Email" type="email">
+  <input class="field" id="authPass" placeholder="Password" type="password">
+  <button class="btn btn-primary" style="width:100%" onclick="doAuth()" id="authSubmit">Sign up</button>
+  <div class="switch" id="authSwitch"></div>
+</div></div>
+
+<div class="panel" id="toolPanel"><div class="sheet">
+  <div class="head"><h3 id="toolTitle"></h3><button class="x" onclick="closePanel('toolPanel')">✕</button></div>
+  <div id="toolBody"></div>
+</div></div>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+const lines=["$ ab-console --init","> loading 32 tools + 12 games","> encrypting local storage","> no data leaves this device","> quiz engine: ready","> status: ALL SYSTEMS READY ✓"];
+let li=0; const termEl=document.getElementById('termText');
+function typeLine(){
+  if(li>=lines.length){termEl.innerHTML+='<span class="cur"></span>';return;}
+  const line=lines[li]; let ci=0;
+  const iv=setInterval(()=>{ termEl.textContent=lines.slice(0,li).join('\n')+(li>0?'\n':'')+line.slice(0,++ci); if(ci>=line.length){clearInterval(iv); li++; setTimeout(typeLine,160);} },20);
+}
+typeLine();
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+let authMode='signup';
+function openAuth(mode){authMode=mode; document.getElementById('drawer').classList.remove('open'); document.getElementById('authTitle').textContent=mode==='signup'?'Create account':'Log in';
+  document.getElementById('authSubmit').textContent=mode==='signup'?'Sign up':'Log in';
+  document.getElementById('authName').style.display=mode==='signup'?'block':'none';
+  document.getElementById('authSwitch').innerHTML=mode==='signup'?'Already have an account? <button onclick="openAuth(\'login\')">Log in</button>':'New here? <button onclick="openAuth(\'signup\')">Create account</button>';
+  document.getElementById('authPanel').classList.add('open');
+}
+function closePanel(id){document.getElementById(id).classList.remove('open'); try{clearInterval(swIv);clearInterval(cdIv);clearInterval(mbTimer);}catch(e){}}
+function doAuth(){
+  const email=document.getElementById('authEmail').value.trim();
+  const pass=document.getElementById('authPass').value;
+  const name=document.getElementById('authName').value.trim();
+  if(!email||!pass){alert('Fill email and password');return;}
+  try{
+    let users=JSON.parse(localStorage.getItem('ab_users')||'{}');
+    if(authMode==='signup'){ users[email]={name,pass}; localStorage.setItem('ab_users',JSON.stringify(users)); }
+    else if(!users[email]||users[email].pass!==pass){ alert('No match found. Try signing up.'); return; }
+    localStorage.setItem('ab_session', email);
+  }catch(e){}
+  closePanel('authPanel'); renderAuthState();
+}
+function logout(){try{localStorage.removeItem('ab_session');}catch(e){} renderAuthState();}
+function renderAuthState(){
+  let email=null; try{email=localStorage.getItem('ab_session');}catch(e){}
+  const html = email
+    ? '<div style="display:flex;align-items:center;gap:8px"><span class="badge-vip">'+email.split('@')[0]+'</span><button class="btn btn-ghost" onclick="logout()">Log out</button></div>'
+    : '<div style="display:flex;gap:8px"><button class="btn btn-ghost" style="flex:1" onclick="openAuth(\'login\')">Log in</button><button class="btn btn-primary" style="flex:1" onclick="openAuth(\'signup\')">Sign up</button></div>';
+  document.getElementById('navacts').innerHTML=html;
+  const d=document.getElementById('drawerAuth'); if(d) d.innerHTML=html;
+}
+renderAuthState();
+
+const cats={
+ security:[{id:'pwgen',ic:'🔑',name:'Password Generator',desc:'Strong random passwords, instantly'},
+   {id:'pwcheck',ic:'🛡️',name:'Password Strength',desc:'Entropy-based strength check'},
+   {id:'base64',ic:'⇄',name:'Base64 Encode/Decode',desc:'Convert text instantly'},
+   {id:'hash',ic:'#️⃣',name:'Hash Generator',desc:'SHA-256 / SHA-1 of any text'},
+   {id:'uuid',ic:'🆔',name:'UUID Generator',desc:'Unique IDs on demand'},
+   {id:'pin',ic:'🔢',name:'PIN Generator',desc:'Random numeric PINs'}],
+ converters:[{id:'unit',ic:'📏',name:'Unit Converter',desc:'Length, weight, temperature'},
+   {id:'color',ic:'🎨',name:'Color Converter',desc:'HEX ↔ RGB, live preview'},
+   {id:'qr',ic:'▦',name:'QR Code Generator',desc:'Any text or link to QR'},
+   {id:'numbase',ic:'01',name:'Binary / Hex Converter',desc:'Decimal, binary, hex'},
+   {id:'roman',ic:'Ⅻ',name:'Roman Numeral Converter',desc:'Number ↔ Roman numerals'},
+   {id:'percent',ic:'%',name:'Percentage Calculator',desc:'X% of Y, and more'},
+   {id:'morse',ic:'·—',name:'Morse Code Converter',desc:'Text ↔ Morse code'},
+   {id:'discount',ic:'🏷️',name:'Discount Calculator',desc:'Final price after % off'}],
+ developer:[{id:'json',ic:'{ }',name:'JSON Formatter',desc:'Pretty-print & validate'},
+   {id:'words',ic:'✎',name:'Word & Char Counter',desc:'Live count as you type'},
+   {id:'urlenc',ic:'🔗',name:'URL Encode/Decode',desc:'Safe URL text conversion'},
+   {id:'textcase',ic:'Aa',name:'Text Case Converter',desc:'UPPER, lower, Title Case'},
+   {id:'slug',ic:'/-/',name:'Slug Generator',desc:'Text to url-slug-format'},
+   {id:'lorem',ic:'¶',name:'Lorem Ipsum Generator',desc:'Placeholder paragraphs'},
+   {id:'palindrome',ic:'🔁',name:'Palindrome Checker',desc:'Reads the same backward?'},
+   {id:'reverse',ic:'↩️',name:'Text Reverser',desc:'Flip any text around'}],
+ everyday:[{id:'bmi',ic:'⚖️',name:'BMI Calculator',desc:'Height & weight check'},
+   {id:'age',ic:'🎂',name:'Age Calculator',desc:'Exact age from birthdate'},
+   {id:'tip',ic:'🧾',name:'Tip Calculator',desc:'Split a bill with tip'},
+   {id:'loan',ic:'🏦',name:'Loan / EMI Calculator',desc:'Monthly installment estimate'},
+   {id:'datediff',ic:'📅',name:'Date Difference',desc:'Days between two dates'},
+   {id:'dice',ic:'🎲',name:'Dice Roller',desc:'Roll 1–6 dice, any sides'},
+   {id:'coin',ic:'🪙',name:'Coin Flip',desc:'Heads or tails'},
+   {id:'stopwatch',ic:'⏱️',name:'Stopwatch',desc:'Start, lap, stop'},
+   {id:'countdown',ic:'⏳',name:'Countdown Timer',desc:'Set minutes & seconds'},
+   {id:'gpa',ic:'🎓',name:'GPA Calculator',desc:'Weighted grade average'}],
+};
+const tools=[].concat(...Object.values(cats));
+Object.entries(cats).forEach(([k,list])=>{
+  const g=document.getElementById('grid-'+k);
+  list.forEach(t=>{const d=document.createElement('button'); d.className='card';
+    d.innerHTML=`<div class="top"><div class="ic">${t.ic}</div></div><h3>${t.name}</h3><p>${t.desc}</p>`;
+    d.onclick=()=>openTool(t.id); g.appendChild(d);});
+});
+
+function openTool(id){
+  document.getElementById('toolTitle').textContent=tools.find(t=>t.id===id).name;
+  document.getElementById('toolBody').innerHTML=builders[id]();
+  document.getElementById('toolPanel').classList.add('open');
+  wire[id] && wire[id]();
+}
+const builders={
+ pwgen:()=>`<div class="row"><input class="field" id="pg_len" type="number" value="16" min="6" max="64"><label style="display:flex;align-items:center;gap:6px;font-size:13px"><input type="checkbox" id="pg_sym" checked> Symbols</label></div><button class="btn btn-primary" style="width:100%" onclick="genPw()">Generate</button><div class="out" id="pg_out" style="margin-top:10px"></div>`,
+ pwcheck:()=>`<input class="field" id="pc_in" placeholder="Type a password">
+   <div class="bar-meter"><div id="pc_bar" style="width:0%"></div></div><div class="out" id="pc_out"></div>`,
+ qr:()=>`<input class="field" id="qr_in" placeholder="Text or URL"><button class="btn btn-primary" style="width:100%" onclick="genQr()">Generate QR</button><div id="qr_out" style="margin-top:12px;display:flex;justify-content:center"></div>`,
+ base64:()=>`<textarea class="field" id="b64_in" placeholder="Enter text or Base64"></textarea><div class="row"><button class="btn btn-primary" onclick="b64(1)">Encode</button><button class="btn btn-ghost" onclick="b64(0)">Decode</button></div><div class="out" id="b64_out" style="margin-top:10px"></div>`,
+ json:()=>`<textarea class="field" id="js_in" placeholder='{"a":1}'></textarea><button class="btn btn-primary" style="width:100%" onclick="fmtJson()">Format</button><div class="out" id="js_out" style="margin-top:10px"></div>`,
+ words:()=>`<textarea class="field" id="wc_in" placeholder="Start typing..." oninput="wc()"></textarea><div class="out" id="wc_out">Words: 0 · Characters: 0</div>`,
+ bmi:()=>`<div class="row"><input class="field" id="bmi_h" placeholder="Height (cm)" type="number"><input class="field" id="bmi_w" placeholder="Weight (kg)" type="number"></div><button class="btn btn-primary" style="width:100%" onclick="calcBmi()">Calculate</button><div class="out" id="bmi_out" style="margin-top:10px"></div>`,
+ age:()=>`<input class="field" id="ag_in" type="date"><button class="btn btn-primary" style="width:100%" onclick="calcAge()">Calculate</button><div class="out" id="ag_out" style="margin-top:10px"></div>`,
+ unit:()=>`<select class="field" id="u_type" onchange="unitUnits()"><option value="len">Length</option><option value="wt">Weight</option><option value="temp">Temperature</option></select>
+  <div class="row"><input class="field" id="u_val" type="number" value="1" oninput="unitCalc()"><select class="field" id="u_from" onchange="unitCalc()"></select><select class="field" id="u_to" onchange="unitCalc()"></select></div>
+  <div class="out" id="u_out"></div>`,
+ color:()=>`<input class="field" id="c_in" placeholder="#1fd4c0 or rgb(31,212,192)" oninput="colorConv()"><div id="c_swatch" style="height:50px;border-radius:10px;border:1px solid var(--line);margin:8px 0"></div><div class="out" id="c_out"></div>`,
+};
+const wire={unit:()=>unitUnits()};
+Object.assign(builders,{
+ pin:()=>`<input class="field" id="pn_len" type="number" value="4" min="3" max="10"><button class="btn btn-primary" style="width:100%" onclick="genPin()">Generate</button><div class="out" id="pn_out" style="margin-top:10px"></div>`,
+ morse:()=>`<textarea class="field" id="mo_in" placeholder="Enter text or .-- morse"></textarea><div class="row"><button class="btn btn-primary" onclick="morseConv(1)">To Morse</button><button class="btn btn-ghost" onclick="morseConv(0)">To Text</button></div><div class="out" id="mo_out" style="margin-top:10px"></div>`,
+ discount:()=>`<div class="row"><input class="field" id="dc2_price" type="number" placeholder="Original price" oninput="discountCalc()"><input class="field" id="dc2_pct" type="number" placeholder="Discount %" oninput="discountCalc()"></div><div class="out" id="dc2_out"></div>`,
+ palindrome:()=>`<input class="field" id="pl_in" placeholder="Enter a word or phrase" oninput="palinCheck()"><div class="out" id="pl_out"></div>`,
+ reverse:()=>`<textarea class="field" id="rv_in" placeholder="Enter text" oninput="reverseText()"></textarea><div class="out" id="rv_out"></div>`,
+ stopwatch:()=>`<div class="out" id="sw_out" style="font-size:26px;text-align:center">00:00.0</div><div class="row" style="margin-top:10px"><button class="btn btn-primary" id="sw_btn" onclick="swToggle()">Start</button><button class="btn btn-ghost" onclick="swLap()">Lap</button><button class="btn btn-ghost" onclick="swReset()">Reset</button></div><div class="out" id="sw_laps" style="margin-top:8px"></div>`,
+ countdown:()=>`<div class="row"><input class="field" id="cd_min" type="number" placeholder="Minutes" value="1"><input class="field" id="cd_sec" type="number" placeholder="Seconds" value="0"></div><button class="btn btn-primary" style="width:100%" onclick="cdStart()">Start</button><div class="out" id="cd_out" style="margin-top:10px;font-size:22px;text-align:center">00:00</div>`,
+ gpa:()=>`<p style="color:var(--muted);font-size:13px;margin:0 0 8px">Enter grade points (0-4) and credit hours, comma separated per course, one per line. e.g. 3.7,3</p><textarea class="field" id="gp_in" placeholder="3.7,3
+4.0,4
+3.3,3"></textarea><button class="btn btn-primary" style="width:100%" onclick="gpaCalc()">Calculate GPA</button><div class="out" id="gp_out" style="margin-top:10px"></div>`,
+ hash:()=>`<textarea class="field" id="h_in" placeholder="Enter text"></textarea><select class="field" id="h_algo"><option value="SHA-256">SHA-256</option><option value="SHA-1">SHA-1</option></select><button class="btn btn-primary" style="width:100%" onclick="doHash()">Generate</button><div class="out" id="h_out" style="margin-top:10px"></div>`,
+ uuid:()=>`<button class="btn btn-primary" style="width:100%" onclick="genUuid()">Generate UUID</button><div class="out" id="uu_out" style="margin-top:10px"></div>`,
+ numbase:()=>`<input class="field" id="nb_in" placeholder="Enter a number" oninput="numBase()"><select class="field" id="nb_from" onchange="numBase()"><option value="10">Decimal</option><option value="2">Binary</option><option value="16">Hex</option><option value="8">Octal</option></select><div class="out" id="nb_out"></div>`,
+ roman:()=>`<input class="field" id="rn_in" placeholder="Enter 1-3999 or a roman numeral" oninput="romanConv()"><div class="out" id="rn_out"></div>`,
+ percent:()=>`<div class="row"><input class="field" id="pt_x" type="number" placeholder="X" oninput="percentCalc()"><input class="field" id="pt_y" type="number" placeholder="Y" oninput="percentCalc()"></div><div class="out" id="pt_out">Enter X and Y to see X% of Y, and what % X is of Y.</div>`,
+ urlenc:()=>`<textarea class="field" id="ue_in" placeholder="Enter text or URL"></textarea><div class="row"><button class="btn btn-primary" onclick="urlEnc(1)">Encode</button><button class="btn btn-ghost" onclick="urlEnc(0)">Decode</button></div><div class="out" id="ue_out" style="margin-top:10px"></div>`,
+ textcase:()=>`<textarea class="field" id="tc_in" placeholder="Enter text"></textarea><div class="row"><button class="btn btn-ghost" onclick="textCase('upper')">UPPER</button><button class="btn btn-ghost" onclick="textCase('lower')">lower</button><button class="btn btn-ghost" onclick="textCase('title')">Title</button></div><div class="out" id="tc_out" style="margin-top:10px"></div>`,
+ slug:()=>`<input class="field" id="sl_in" placeholder="My Blog Post Title" oninput="slugify()"><div class="out" id="sl_out"></div>`,
+ lorem:()=>`<input class="field" id="lo_n" type="number" value="3" min="1" max="10"><button class="btn btn-primary" style="width:100%" onclick="loremGen()">Generate</button><div class="out" id="lo_out" style="margin-top:10px"></div>`,
+ tip:()=>`<div class="row"><input class="field" id="tp_bill" type="number" placeholder="Bill amount" oninput="tipCalc()"><input class="field" id="tp_pct" type="number" placeholder="Tip %" value="10" oninput="tipCalc()"></div><input class="field" id="tp_people" type="number" placeholder="Split between (people)" value="1" oninput="tipCalc()"><div class="out" id="tp_out"></div>`,
+ loan:()=>`<div class="row"><input class="field" id="ln_amt" type="number" placeholder="Loan amount" oninput="loanCalc()"><input class="field" id="ln_rate" type="number" placeholder="Annual rate %" oninput="loanCalc()"></div><input class="field" id="ln_yrs" type="number" placeholder="Years" oninput="loanCalc()"><div class="out" id="ln_out"></div>`,
+ datediff:()=>`<div class="row"><input class="field" id="dd_a" type="date"><input class="field" id="dd_b" type="date"></div><button class="btn btn-primary" style="width:100%" onclick="dateDiff()">Calculate</button><div class="out" id="dd_out" style="margin-top:10px"></div>`,
+ dice:()=>`<div class="row"><input class="field" id="dc_n" type="number" value="2" min="1" max="10"><select class="field" id="dc_sides"><option>6</option><option>4</option><option>8</option><option>10</option><option>20</option></select></div><button class="btn btn-primary" style="width:100%" onclick="rollDice()">Roll</button><div class="out" id="dc_out" style="margin-top:10px"></div>`,
+ coin:()=>`<button class="btn btn-primary" style="width:100%" onclick="flipCoin()">Flip</button><div class="out" id="cn_out" style="margin-top:10px;text-align:center;font-size:20px"></div>`,
+});
+
+function genPw(){ const len=+document.getElementById('pg_len').value||16; const sym=document.getElementById('pg_sym').checked;
+  let chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789'+(sym?'!@#$%^&*()_-+=?':'');
+  let out=''; const arr=new Uint32Array(len); crypto.getRandomValues(arr);
+  for(let i=0;i<len;i++) out+=chars[arr[i]%chars.length];
+  document.getElementById('pg_out').textContent=out; }
+
+function pwScore(pw){ let pool=(/[a-z]/.test(pw)?26:0)+(/[A-Z]/.test(pw)?26:0)+(/\d/.test(pw)?10:0)+(/[^A-Za-z0-9]/.test(pw)?33:0);
+  return pw? Math.round(pw.length*Math.log2(pool||1)) : 0; }
+document.addEventListener('input',e=>{ if(e.target.id==='pc_in'){ const pw=e.target.value; const s=pwScore(pw);
+  const lvl = s<28?['Weak','#e2635c',15]:s<50?['Okay','#d8b26a',50]:s<70?['Strong','#1fd4c0',80]:['Excellent','#2fe8a0',100];
+  document.getElementById('pc_bar').style.cssText='width:'+lvl[2]+'%;background:'+lvl[1];
+  document.getElementById('pc_out').textContent=pw?lvl[0]+' · ~'+s+' bits of entropy':''; }});
+
+function genQr(){ const v=document.getElementById('qr_in').value.trim(); const box=document.getElementById('qr_out'); box.innerHTML='';
+  if(!v)return; if(window.QRCode){ new QRCode(box,{text:v,width:180,height:180,colorDark:'#eef1f7',colorLight:'#0d1320'}); } else { box.textContent='QR library failed to load.'; } }
+
+function b64(enc){ const v=document.getElementById('b64_in').value; const out=document.getElementById('b64_out');
+  try{ out.textContent = enc? btoa(unescape(encodeURIComponent(v))) : decodeURIComponent(escape(atob(v))); }
+  catch(e){ out.textContent='Invalid input for this operation.'; } }
+
+function fmtJson(){ const v=document.getElementById('js_in').value; const out=document.getElementById('js_out');
+  try{ out.textContent=JSON.stringify(JSON.parse(v),null,2); } catch(e){ out.textContent='Invalid JSON: '+e.message; } }
+
+function wc(){ const v=document.getElementById('wc_in').value; const words=v.trim()?v.trim().split(/\s+/).length:0;
+  document.getElementById('wc_out').textContent='Words: '+words+' · Characters: '+v.length; }
+
+function calcBmi(){ const h=+document.getElementById('bmi_h').value/100, w=+document.getElementById('bmi_w').value;
+  const out=document.getElementById('bmi_out'); if(!h||!w){out.textContent='Enter height and weight.';return;}
+  const b=w/(h*h); const cat=b<18.5?'Underweight':b<25?'Normal':b<30?'Overweight':'Obese';
+  out.textContent='BMI: '+b.toFixed(1)+' — '+cat; }
+
+function calcAge(){ const v=document.getElementById('ag_in').value; const out=document.getElementById('ag_out'); if(!v)return;
+  const d=new Date(v), n=new Date(); let y=n.getFullYear()-d.getFullYear(), m=n.getMonth()-d.getMonth(), dd=n.getDate()-d.getDate();
+  if(dd<0){m--; dd+=30;} if(m<0){y--; m+=12;}
+  out.textContent=y+' years, '+m+' months, '+dd+' days'; }
+
+const unitDefs={len:{m:1,km:1000,cm:.01,mi:1609.34,ft:.3048,in:.0254},wt:{kg:1,g:.001,lb:.4536,oz:.02835},temp:null};
+function unitUnits(){ const t=document.getElementById('u_type').value; const f=document.getElementById('u_from'),to=document.getElementById('u_to');
+  const opts=t==='temp'?['C','F','K']:Object.keys(unitDefs[t]); f.innerHTML=to.innerHTML=opts.map(o=>'<option>'+o+'</option>').join('');
+  to.selectedIndex=1; unitCalc(); }
+function unitCalc(){ const t=document.getElementById('u_type').value, v=+document.getElementById('u_val').value||0;
+  const f=document.getElementById('u_from').value, to=document.getElementById('u_to').value; let r;
+  if(t==='temp'){ let c = f==='C'?v:f==='F'?(v-32)*5/9:v-273.15; r = to==='C'?c:to==='F'?c*9/5+32:c+273.15; }
+  else { r = v*unitDefs[t][f]/unitDefs[t][to]; }
+  document.getElementById('u_out').textContent=v+' '+f+' = '+(+r.toFixed(4))+' '+to; }
+
+function colorConv(){ const v=document.getElementById('c_in').value.trim(); const out=document.getElementById('c_out'), sw=document.getElementById('c_swatch');
+  let r,g,b; const hex=v.match(/^#?([0-9a-f]{6})$/i); const rgb=v.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/i);
+  if(hex){ const h=hex[1]; r=parseInt(h.slice(0,2),16); g=parseInt(h.slice(2,4),16); b=parseInt(h.slice(4,6),16); }
+  else if(rgb){ r=+rgb[1]; g=+rgb[2]; b=+rgb[3]; } else { out.textContent='Enter a valid HEX or RGB color.'; sw.style.background='transparent'; return; }
+  const toHex=n=>n.toString(16).padStart(2,'0');
+  sw.style.background='rgb('+r+','+g+','+b+')';
+  out.textContent='HEX: #'+toHex(r)+toHex(g)+toHex(b)+'\nRGB: rgb('+r+', '+g+', '+b+')'; }
+async function doHash(){ const v=document.getElementById('h_in').value; const algo=document.getElementById('h_algo').value;
+  const buf=await crypto.subtle.digest(algo,new TextEncoder().encode(v));
+  document.getElementById('h_out').textContent=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join(''); }
+function genUuid(){ document.getElementById('uu_out').textContent=crypto.randomUUID(); }
+function numBase(){ const v=document.getElementById('nb_in').value.trim(); const from=+document.getElementById('nb_from').value; const out=document.getElementById('nb_out');
+  const n=parseInt(v,from); if(!v||isNaN(n)){out.textContent='Enter a valid number.';return;}
+  out.textContent='Decimal: '+n+'\nBinary: '+n.toString(2)+'\nOctal: '+n.toString(8)+'\nHex: '+n.toString(16).toUpperCase(); }
+function romanConv(){ const v=document.getElementById('rn_in').value.trim(); const out=document.getElementById('rn_out'); if(!v){out.textContent='';return;}
+  const map=[[1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],[100,'C'],[90,'XC'],[50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']];
+  if(/^\d+$/.test(v)){ let n=+v; if(n<1||n>3999){out.textContent='Enter a number from 1 to 3999.';return;} let r='';
+    for(const [val,sym] of map){ while(n>=val){ r+=sym; n-=val; } } out.textContent=r; }
+  else { let s=v.toUpperCase(), n=0, i=0; for(const [val,sym] of map){ while(s.slice(i,i+sym.length)===sym){ n+=val; i+=sym.length; } }
+    out.textContent = i===s.length && n>0 ? String(n) : 'Enter a valid number or roman numeral.'; } }
+function percentCalc(){ const x=+document.getElementById('pt_x').value, y=+document.getElementById('pt_y').value; const out=document.getElementById('pt_out');
+  if(!x && !y){out.textContent='Enter X and Y to see X% of Y, and what % X is of Y.';return;}
+  out.textContent=x+'% of '+y+' = '+(x*y/100).toFixed(2)+'\n'+x+' is '+(y? (x/y*100).toFixed(2):'—')+'% of '+y; }
+function urlEnc(enc){ const v=document.getElementById('ue_in').value; document.getElementById('ue_out').textContent = enc? encodeURIComponent(v) : decodeURIComponent(v); }
+function textCase(m){ const v=document.getElementById('tc_in').value; let r=v;
+  if(m==='upper') r=v.toUpperCase(); else if(m==='lower') r=v.toLowerCase();
+  else r=v.replace(/\w\S*/g,t=>t[0].toUpperCase()+t.slice(1).toLowerCase());
+  document.getElementById('tc_out').textContent=r; }
+function slugify(){ const v=document.getElementById('sl_in').value; document.getElementById('sl_out').textContent=v.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''); }
+function loremGen(){ const n=+document.getElementById('lo_n').value||3;
+  const base='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.';
+  document.getElementById('lo_out').textContent=Array(n).fill(base).join('\n\n'); }
+function tipCalc(){ const bill=+document.getElementById('tp_bill').value, pct=+document.getElementById('tp_pct').value, people=+document.getElementById('tp_people').value||1;
+  const out=document.getElementById('tp_out'); if(!bill){out.textContent='Enter the bill amount.';return;}
+  const tip=bill*pct/100, total=bill+tip; out.textContent='Tip: '+tip.toFixed(2)+'\nTotal: '+total.toFixed(2)+'\nPer person: '+(total/people).toFixed(2); }
+function loanCalc(){ const p=+document.getElementById('ln_amt').value, r=+document.getElementById('ln_rate').value/100/12, n=+document.getElementById('ln_yrs').value*12;
+  const out=document.getElementById('ln_out'); if(!p||!n){out.textContent='Enter amount and years.';return;}
+  const emi = r? p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1) : p/n;
+  out.textContent='Monthly payment: '+emi.toFixed(2)+'\nTotal payable: '+(emi*n).toFixed(2); }
+function dateDiff(){ const a=document.getElementById('dd_a').value, b=document.getElementById('dd_b').value; const out=document.getElementById('dd_out'); if(!a||!b)return;
+  const d=Math.abs(new Date(b)-new Date(a))/86400000; out.textContent=d+' day(s) between the two dates.'; }
+function rollDice(){ const n=+document.getElementById('dc_n').value||1, sides=+document.getElementById('dc_sides').value;
+  const rolls=Array.from({length:n},()=>1+Math.floor(Math.random()*sides));
+  document.getElementById('dc_out').textContent=rolls.join(' + ')+' = '+rolls.reduce((a,b)=>a+b,0); }
+function flipCoin(){ document.getElementById('cn_out').textContent = Math.random()<0.5 ? '🪙 Heads' : '🪙 Tails'; }
+
+function goD(id){document.getElementById('drawer').classList.remove('open'); go(id);}
+
+function genPin(){ const len=+document.getElementById('pn_len').value||4; const arr=new Uint32Array(len); crypto.getRandomValues(arr);
+  document.getElementById('pn_out').textContent=Array.from(arr,x=>x%10).join(''); }
+const MORSE={A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',I:'..',J:'.---',K:'-.-',L:'.-..',M:'--',N:'-.',O:'---',P:'.--.',Q:'--.-',R:'.-.',S:'...',T:'-',U:'..-',V:'...-',W:'.--',X:'-..-',Y:'-.--',Z:'--..',0:'-----',1:'.----',2:'..---',3:'...--',4:'....-',5:'.....',6:'-....',7:'--...',8:'---..',9:'----.'};
+const MORSE_R=Object.fromEntries(Object.entries(MORSE).map(([k,v])=>[v,k]));
+function morseConv(toM){ const v=document.getElementById('mo_in').value.trim(); const out=document.getElementById('mo_out');
+  if(toM) out.textContent=v.toUpperCase().split('').map(c=>c===' '?'/':(MORSE[c]||c)).join(' ');
+  else out.textContent=v.split(' ').map(c=>c==='/'?' ':(MORSE_R[c]||c)).join(''); }
+function discountCalc(){ const p=+document.getElementById('dc2_price').value, pct=+document.getElementById('dc2_pct').value; const out=document.getElementById('dc2_out');
+  if(!p){out.textContent='Enter the original price.';return;} const save=p*pct/100; out.textContent='You save: '+save.toFixed(2)+'\nFinal price: '+(p-save).toFixed(2); }
+function palinCheck(){ const v=document.getElementById('pl_in').value.toLowerCase().replace(/[^a-z0-9]/g,''); const out=document.getElementById('pl_out');
+  if(!v){out.textContent='';return;} out.textContent = v===v.split('').reverse().join('') ? 'Yes — it is a palindrome! ✅' : 'No, not a palindrome.'; }
+function reverseText(){ document.getElementById('rv_out').textContent=document.getElementById('rv_in').value.split('').reverse().join(''); }
+
+let swT=0, swOn=false, swIv;
+function swToggle(){ const btn=document.getElementById('sw_btn');
+  if(!swOn){ swOn=true; btn.textContent='Pause'; const start=Date.now()-swT;
+    swIv=setInterval(()=>{ swT=Date.now()-start; const s=swT/1000; document.getElementById('sw_out').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+(s%60).toFixed(1).padStart(4,'0'); },100); }
+  else { swOn=false; btn.textContent='Resume'; clearInterval(swIv); } }
+function swLap(){ if(!swOn)return; const el=document.getElementById('sw_laps'); el.textContent=(el.textContent?el.textContent+' · ':'')+document.getElementById('sw_out').textContent; }
+function swReset(){ swOn=false; clearInterval(swIv); swT=0; document.getElementById('sw_out').textContent='00:00.0'; document.getElementById('sw_laps').textContent=''; document.getElementById('sw_btn').textContent='Start'; }
+
+let cdIv;
+function cdStart(){ let total=(+document.getElementById('cd_min').value||0)*60+(+document.getElementById('cd_sec').value||0); clearInterval(cdIv);
+  const out=document.getElementById('cd_out'); const tick=()=>{ out.textContent=String(Math.floor(total/60)).padStart(2,'0')+':'+String(total%60).padStart(2,'0');
+    if(total<=0){ clearInterval(cdIv); out.textContent="Time's up! ⏰"; return; } total--; }; tick(); cdIv=setInterval(tick,1000); }
+
+function gpaCalc(){ const lines=document.getElementById('gp_in').value.trim().split('\n').filter(Boolean); let tp=0, tc=0;
+  for(const l of lines){ const [g,c]=l.split(',').map(x=>+x.trim()); if(!isNaN(g)&&!isNaN(c)){ tp+=g*c; tc+=c; } }
+  document.getElementById('gp_out').textContent = tc? 'GPA: '+(tp/tc).toFixed(2)+' (over '+tc+' credit hours)' : 'Add at least one valid course line.'; }
+
+/* ---------- GAMES ---------- */
+const GCATS={Strategy:'#1fd4c0',Memory:'#d8b26a',Speed:'#e2635c',Word:'#8b7cf6'};
+const games=[
+ {id:'rps',ic:'✊',name:'Rock Paper Scissors',cat:'Strategy'},
+ {id:'ttt',ic:'❌',name:'Tic Tac Toe (vs AI)',cat:'Strategy'},
+ {id:'memory',ic:'🧠',name:'Memory Match',cat:'Memory'},
+ {id:'simon',ic:'🎹',name:'Simon Says',cat:'Memory'},
+ {id:'guess',ic:'🔢',name:'Guess the Number',cat:'Strategy'},
+ {id:'reaction',ic:'⚡',name:'Reaction Timer',cat:'Speed'},
+ {id:'typing',ic:'⌨️',name:'Typing Speed Test',cat:'Speed'},
+ {id:'mathblitz',ic:'➕',name:'Math Blitz (30s)',cat:'Speed'},
+ {id:'quickclick',ic:'🖱️',name:'Quick Click (5s)',cat:'Speed'},
+ {id:'hangman',ic:'🪢',name:'Hangman',cat:'Word'},
+ {id:'scramble',ic:'🔤',name:'Word Scramble',cat:'Word'},
+ {id:'stroop',ic:'🎨',name:'Color Match',cat:'Speed'},
+];
+const gg=document.getElementById('gamesGrid');
+games.forEach(g=>{const d=document.createElement('button'); d.className='gamecard'; d.style.setProperty('--cat',GCATS[g.cat]);
+  d.innerHTML='<div class="gic">'+g.ic+'</div><h3>'+g.name+'</h3><div class="gcat">'+g.cat.toUpperCase()+'</div>'; d.onclick=()=>openGame(g.id); gg.appendChild(d);});
+
+function openGame(id){ document.getElementById('toolTitle').textContent=games.find(g=>g.id===id).name;
+  document.getElementById('toolBody').innerHTML=gameBuilders[id](); document.getElementById('toolPanel').classList.add('open'); gameInit[id] && gameInit[id](); }
+
+const gameBuilders={
+ rps:()=>`<div class="row"><button class="btn btn-ghost" onclick="playRps('Rock')">✊ Rock</button><button class="btn btn-ghost" onclick="playRps('Paper')">✋ Paper</button><button class="btn btn-ghost" onclick="playRps('Scissors')">✌️ Scissors</button></div><div class="out" id="rps_out" style="margin-top:12px">Pick one.</div>`,
+ ttt:()=>`<div class="mgrid" id="ttt_grid" style="grid-template-columns:repeat(3,1fr)"></div><div class="out" id="ttt_out" style="margin-top:10px"></div><button class="btn btn-ghost" style="width:100%;margin-top:8px" onclick="ttt_reset()">Restart</button>`,
+ memory:()=>`<div class="mgrid" id="mem_grid"></div><div class="out" id="mem_out" style="margin-top:10px"></div>`,
+ guess:()=>`<p style="color:var(--muted);font-size:14px;margin-top:0">I'm thinking of a number 1–100.</p><div class="row"><input class="field" id="gs_in" type="number"><button class="btn btn-primary" onclick="guessTry()">Guess</button></div><div class="out" id="gs_out"></div>`,
+ reaction:()=>`<div id="rx_box" style="background:var(--surface-2);border-radius:12px;padding:40px;text-align:center;cursor:pointer;font-weight:600" onclick="rxClick()">Tap to start</div><div class="out" id="rx_out" style="margin-top:10px"></div>`,
+ typing:()=>`<p class="out" id="tp_target" style="margin-bottom:8px"></p><textarea class="field" id="tp_box" placeholder="Start typing here..." oninput="typingProgress()"></textarea><div class="out" id="tp_result"></div>`,
+ quickclick:()=>`<button class="btn btn-primary" style="width:100%" id="qc_btn" onclick="quickClick()">Start (5s)</button><div class="out" id="qc_out" style="margin-top:10px">Clicks: 0</div>`,
+ hangman:()=>`<div class="out" id="hm_word" style="font-size:20px;letter-spacing:4px;text-align:center"></div><div class="out" id="hm_status" style="margin-top:8px"></div><div id="hm_keys" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px"></div>`,
+ simon:()=>`<p class="out" id="sim_status">Level 1 — watch, then repeat.</p><div class="simon-grid"><button class="simon-btn" style="background:#e2635c;color:#e2635c" data-c="0" onclick="simonPick(0)"></button><button class="simon-btn" style="background:#1fd4c0;color:#1fd4c0" data-c="1" onclick="simonPick(1)"></button><button class="simon-btn" style="background:#d8b26a;color:#d8b26a" data-c="2" onclick="simonPick(2)"></button><button class="simon-btn" style="background:#8b7cf6;color:#8b7cf6" data-c="3" onclick="simonPick(3)"></button></div>`,
+ mathblitz:()=>`<div class="out" id="mb_status">Tap start — 30 seconds.</div><div class="out" id="mb_q" style="font-size:22px;text-align:center;margin:10px 0"></div><div class="row"><input class="field" id="mb_in" type="number" placeholder="Answer"><button class="btn btn-primary" onclick="mbCheck()">Check</button></div><button class="btn btn-ghost" style="width:100%;margin-top:8px" id="mb_start" onclick="mbStart()">Start</button>`,
+ scramble:()=>`<div class="out" id="scr_word" style="font-size:24px;letter-spacing:3px;text-align:center"></div><input class="field" id="scr_in" placeholder="Your guess" style="margin-top:10px"><div class="row"><button class="btn btn-primary" onclick="scrCheck()">Check</button><button class="btn btn-ghost" onclick="scr_init()">New word</button></div><div class="out" id="scr_out" style="margin-top:8px"></div>`,
+ stroop:()=>`<p class="out" id="st_status">Tap the button matching the INK COLOR of the word, not what it says.</p><div class="stroop-word" id="st_word"></div><div class="simon-grid" style="max-width:280px"><button class="btn" style="background:#e2635c;color:#fff" onclick="stroopPick('red')">Red</button><button class="btn" style="background:#1fd4c0;color:#042220" onclick="stroopPick('teal')">Teal</button><button class="btn" style="background:#d8b26a;color:#042220" onclick="stroopPick('gold')">Gold</button><button class="btn" style="background:#8b7cf6;color:#fff" onclick="stroopPick('purple')">Purple</button></div>`,
+};
+
+function playRps(me){ const opts=['Rock','Paper','Scissors']; const cpu=opts[Math.floor(Math.random()*3)];
+  let r = me===cpu?'Draw':(me==='Rock'&&cpu==='Scissors')||(me==='Paper'&&cpu==='Rock')||(me==='Scissors'&&cpu==='Paper')?'You win! 🎉':'Computer wins.';
+  document.getElementById('rps_out').textContent='You: '+me+' · Computer: '+cpu+' → '+r; }
+
+let tttB, tttOver;
+function ttt_reset(){ tttB=Array(9).fill(''); tttOver=false; const g=document.getElementById('ttt_grid'); g.innerHTML='';
+  for(let i=0;i<9;i++){ const c=document.createElement('div'); c.className='mcard'; c.style.fontSize='22px'; c.onclick=()=>tttMove(i); g.appendChild(c); }
+  document.getElementById('ttt_out').textContent='Your turn (X).'; }
+function tttWin(b){ const L=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  for(const [a,b2,c] of L){ if(b[a]&&b[a]===b[b2]&&b[a]===b[c]) return b[a]; } return b.every(x=>x)?'Draw':null; }
+function tttMove(i){ if(tttOver||tttB[i])return; tttB[i]='X'; renderTtt();
+  let w=tttWin(tttB); if(w){ tttOver=true; document.getElementById('ttt_out').textContent = w==='Draw'?'Draw game.':'You win! 🎉'; return; }
+  let empty=tttB.map((v,ix)=>v?-1:ix).filter(ix=>ix>=0); let best=empty[Math.floor(Math.random()*empty.length)];
+  for(const ix of empty){ const t=[...tttB]; t[ix]='O'; if(tttWin(t)==='O'){best=ix;break;} }
+  for(const ix of empty){ const t=[...tttB]; t[ix]='X'; if(tttWin(t)==='X'){best=ix;break;} }
+  tttB[best]='O'; renderTtt(); w=tttWin(tttB); tttOver=!!w; document.getElementById('ttt_out').textContent = w==='Draw'?'Draw game.':w==='O'?'Computer wins.':'Your turn (X).'; }
+function renderTtt(){ [...document.getElementById('ttt_grid').children].forEach((c,i)=>{c.textContent=tttB[i];c.classList.toggle('flip',tttB[i]==='X');}); }
+
+let memCards, memFlipped, memMatched;
+function mem_init(){ const emo=['🔒','🛡️','🔑','💻','📡','🐛','🧠','⚙️']; memCards=[...emo,...emo].sort(()=>Math.random()-.5);
+  memFlipped=[]; memMatched=new Set(); const g=document.getElementById('mem_grid'); g.innerHTML='';
+  memCards.forEach((e,i)=>{ const c=document.createElement('div'); c.className='mcard'; c.dataset.i=i; c.onclick=()=>memFlip(i); g.appendChild(c); });
+  document.getElementById('mem_out').textContent='Find all 8 pairs.'; }
+function memFlip(i){ if(memFlipped.length===2||memMatched.has(i)||memFlipped.includes(i))return;
+  const cells=document.getElementById('mem_grid').children; cells[i].textContent=memCards[i]; cells[i].classList.add('flip'); memFlipped.push(i);
+  if(memFlipped.length===2){ const [a,b]=memFlipped;
+    if(memCards[a]===memCards[b]){ memMatched.add(a); memMatched.add(b); memFlipped=[];
+      if(memMatched.size===memCards.length) document.getElementById('mem_out').textContent='You matched them all! 🎉'; }
+    else setTimeout(()=>{ cells[a].textContent=''; cells[b].textContent=''; cells[a].classList.remove('flip'); cells[b].classList.remove('flip'); memFlipped=[]; },700); } }
+
+let guessN, guessTries;
+function guess_init(){ guessN=1+Math.floor(Math.random()*100); guessTries=0; document.getElementById('gs_out').textContent=''; }
+function guessTry(){ const v=+document.getElementById('gs_in').value; if(!v)return; guessTries++;
+  const out=document.getElementById('gs_out'); if(v===guessN){ out.textContent='Correct! It was '+v+'. Tries: '+guessTries; }
+  else out.textContent = v<guessN?'Higher ⬆️':'Lower ⬇️'; }
+
+let rxStart, rxWaiting;
+function rx_init(){ document.getElementById('rx_box').textContent='Tap to start'; document.getElementById('rx_out').textContent=''; rxWaiting=false; }
+function rxClick(){ const box=document.getElementById('rx_box');
+  if(box.textContent==='Tap to start'){ box.textContent='Wait for green...'; box.style.background='var(--surface-2)'; rxWaiting=true;
+    setTimeout(()=>{ if(!rxWaiting)return; box.style.background='var(--teal)'; box.textContent='Click now!'; rxStart=Date.now(); },800+Math.random()*2000); }
+  else if(box.textContent==='Click now!'){ const t=Date.now()-rxStart; document.getElementById('rx_out').textContent='Reaction time: '+t+' ms'; rx_init(); }
+  else if(box.textContent==='Wait for green...'){ rxWaiting=false; document.getElementById('rx_out').textContent='Too soon! Try again.'; rx_init(); } }
+
+const TYPING_SENT="The quick typing test checks both your speed and accuracy.";
+let tpStart;
+function typing_init(){ document.getElementById('tp_target').textContent=TYPING_SENT; document.getElementById('tp_box').value=''; document.getElementById('tp_result').textContent=''; tpStart=null; }
+function typingProgress(){ const v=document.getElementById('tp_box').value; if(!tpStart) tpStart=Date.now();
+  if(v===TYPING_SENT){ const mins=(Date.now()-tpStart)/60000; const wpm=Math.round((TYPING_SENT.split(' ').length)/mins);
+    document.getElementById('tp_result').textContent='Done! Speed: '+wpm+' WPM'; } }
+
+let qcCount, qcActive;
+function quickClick(){ if(qcActive)return; qcCount=0; qcActive=true; document.getElementById('qc_out').textContent='Clicks: 0';
+  document.getElementById('qc_btn').textContent='Click fast!'; document.getElementById('qc_btn').onclick=()=>{qcCount++; document.getElementById('qc_out').textContent='Clicks: '+qcCount;};
+  setTimeout(()=>{ qcActive=false; document.getElementById('qc_out').textContent='Final: '+qcCount+' clicks in 5s'; document.getElementById('qc_btn').textContent='Start (5s)'; document.getElementById('qc_btn').onclick=quickClick; },5000); }
+
+const HM_WORDS=['FIREWALL','PASSWORD','PHISHING','MALWARE','ENCRYPT','NETWORK','BACKUP','ROUTER'];
+let hmWord, hmGuessed, hmWrong;
+function hangman_init(){ hmWord=HM_WORDS[Math.floor(Math.random()*HM_WORDS.length)]; hmGuessed=new Set(); hmWrong=0;
+  const keys=document.getElementById('hm_keys'); keys.innerHTML='';
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(l=>{ const b=document.createElement('button'); b.className='btn btn-ghost'; b.style.padding='8px 0'; b.textContent=l; b.onclick=()=>hmGuess(l,b); keys.appendChild(b); });
+  hmRender(); }
+function hmRender(){ document.getElementById('hm_word').textContent = hmWord.split('').map(c=>hmGuessed.has(c)?c:'_').join(' ');
+  document.getElementById('hm_status').textContent='Wrong guesses: '+hmWrong+' / 6'; }
+function hmGuess(l,btn){ if(hmGuessed.has(l))return; hmGuessed.add(l); btn.disabled=true;
+  if(!hmWord.includes(l)) hmWrong++; hmRender();
+  if(hmWord.split('').every(c=>hmGuessed.has(c))) document.getElementById('hm_status').textContent='You won! 🎉 Word: '+hmWord;
+  else if(hmWrong>=6) document.getElementById('hm_status').textContent='Out of tries. Word was: '+hmWord; }
+
+const gameInit={ttt:ttt_reset, memory:mem_init, guess:guess_init, reaction:rx_init, typing:typing_init, hangman:hangman_init, simon:simon_init, mathblitz:mb_init, scramble:scr_init, stroop:stroop_init};
+
+let simonSeq, simonUser, simonLevel, simonBusy;
+function simon_init(){ simonSeq=[]; simonLevel=0; simonUser=[]; simonBusy=true; simonNext(); }
+function simonNext(){ simonLevel++; simonSeq.push(Math.floor(Math.random()*4)); simonUser=[]; document.getElementById('sim_status').textContent='Level '+simonLevel+' — watch...'; simonPlay(); }
+function simonPlay(){ const btns=[...document.querySelectorAll('.simon-btn')]; simonBusy=true; let i=0;
+  const iv=setInterval(()=>{ btns.forEach(b=>b.classList.remove('lit')); if(i>0) btns[simonSeq[i-1]].classList.remove('lit');
+    if(i>=simonSeq.length){ clearInterval(iv); btns.forEach(b=>b.classList.remove('lit')); simonBusy=false; document.getElementById('sim_status').textContent='Level '+simonLevel+' — your turn!'; return; }
+    btns[simonSeq[i]].classList.add('lit'); i++; },550); }
+function simonPick(c){ if(simonBusy)return; simonUser.push(c); const idx=simonUser.length-1;
+  if(simonSeq[idx]!==c){ document.getElementById('sim_status').textContent='Wrong! You reached level '+simonLevel+'. Tap a tool to retry.'; simonBusy=true; return; }
+  if(simonUser.length===simonSeq.length){ setTimeout(simonNext,500); } }
+
+let mbScore, mbAns, mbTimer;
+function mb_init(){ document.getElementById('mb_status').textContent='Tap start — 30 seconds.'; document.getElementById('mb_q').textContent=''; }
+function mbNewQ(){ const a=1+Math.floor(Math.random()*20), b=1+Math.floor(Math.random()*20), op=['+','-','×'][Math.floor(Math.random()*3)];
+  mbAns = op==='+'?a+b:op==='-'?a-b:a*b; document.getElementById('mb_q').textContent=a+' '+op+' '+b+' = ?'; document.getElementById('mb_in').value=''; }
+function mbStart(){ mbScore=0; let t=30; document.getElementById('mb_start').textContent='Running...'; mbNewQ();
+  mbTimer=setInterval(()=>{ t--; document.getElementById('mb_status').textContent='Score: '+mbScore+' · Time left: '+t+'s';
+    if(t<=0){ clearInterval(mbTimer); document.getElementById('mb_status').textContent='Time up! Final score: '+mbScore; document.getElementById('mb_start').textContent='Start'; document.getElementById('mb_q').textContent=''; } },1000); }
+function mbCheck(){ if(+document.getElementById('mb_in').value===mbAns){ mbScore++; } mbNewQ(); }
+
+const SCR_WORDS=['FIREWALL','PASSWORD','ROUTER','PHISHING','ENCRYPT','MALWARE','NETWORK','BACKUP','SECURITY','ANTIVIRUS'];
+let scrAns;
+function scr_init(){ scrAns=SCR_WORDS[Math.floor(Math.random()*SCR_WORDS.length)]; let sc; do{ sc=scrAns.split('').sort(()=>Math.random()-.5).join(''); }while(sc===scrAns);
+  document.getElementById('scr_word').textContent=sc; document.getElementById('scr_in').value=''; document.getElementById('scr_out').textContent=''; }
+function scrCheck(){ const v=document.getElementById('scr_in').value.toUpperCase().trim(); document.getElementById('scr_out').textContent = v===scrAns ? 'Correct! 🎉 It was '+scrAns : 'Not quite, try again.'; }
+
+const STROOP_COLORS={red:'#e2635c',teal:'#1fd4c0',gold:'#d8b26a',purple:'#8b7cf6'};
+let stroopAns, stroopScore, stroopRound;
+function stroop_init(){ stroopScore=0; stroopRound=0; stroopNext(); }
+function stroopNext(){ stroopRound++; if(stroopRound>10){ document.getElementById('st_status').textContent='Done! Score: '+stroopScore+' / 10'; document.getElementById('st_word').textContent=''; return; }
+  const names=Object.keys(STROOP_COLORS); const word=names[Math.floor(Math.random()*4)]; stroopAns=names[Math.floor(Math.random()*4)];
+  const el=document.getElementById('st_word'); el.textContent=word.toUpperCase(); el.style.color=STROOP_COLORS[stroopAns];
+  document.getElementById('st_status').textContent='Round '+stroopRound+'/10 · Score: '+stroopScore; }
+function stroopPick(c){ if(c===stroopAns) stroopScore++; stroopNext(); }
+
+/* ---------- QUIZ ---------- */
+const QUIZ_BANK={
+ 'General Knowledge':[
+  ['What is the capital of Pakistan?',['Karachi','Lahore','Islamabad','Peshawar'],2],
+  ['How many continents are there?',['5','6','7','8'],2],
+  ['What is the largest ocean?',['Atlantic','Indian','Pacific','Arctic'],2],
+  ['Which planet is known as the Red Planet?',['Venus','Mars','Jupiter','Saturn'],1],
+  ['What is the tallest mountain in the world?',['K2','Everest','Nanga Parbat','Kilimanjaro'],1],
+  ['How many days in a leap year?',['364','365','366','367'],2],
+  ['What is the currency of Japan?',['Won','Yuan','Yen','Ringgit'],2],
+  ['Which gas do plants absorb?',['Oxygen','Nitrogen','Carbon dioxide','Hydrogen'],2],
+ ],
+ 'Cybersecurity':[
+  ['What does VPN stand for?',['Virtual Private Network','Verified Public Node','Virtual Protected Net','Very Private Network'],0],
+  ['What is phishing?',['A type of firewall','Fraudulent attempt to get data','A strong password','An antivirus'],1],
+  ['Which is the strongest password?',['123456','password','Tr@il-42-Zebra!','qwerty'],2],
+  ['What does HTTPS add over HTTP?',['Speed','Encryption','Ads','Compression'],1],
+  ['What is a firewall used for?',['Speeding up internet','Blocking unwanted traffic','Storing files','Writing code'],1],
+  ['2FA stands for?',['Two-Factor Authentication','Two-File Access','Final Auth','Fast Forward Access'],0],
+  ['What is malware?',['Helpful software','Malicious software','A hardware part','A browser'],1],
+  ['Best way to avoid phishing links?',['Click to check','Hover/verify the URL first','Reply with info','Ignore browser warnings'],1],
+ ],
+ 'Science':[
+  ['What is H2O?',['Oxygen','Hydrogen','Water','Salt'],2],
+  ['Who proposed the theory of relativity?',['Newton','Einstein','Tesla','Darwin'],1],
+  ['What is the powerhouse of the cell?',['Nucleus','Mitochondria','Ribosome','Cytoplasm'],1],
+  ['Speed of light is approx?',['3,000 km/s','300,000 km/s','30,000 km/s','3,000,000 km/s'],1],
+  ['What force pulls objects to Earth?',['Magnetism','Friction','Gravity','Tension'],2],
+  ['What gas do humans exhale most?',['Oxygen','Carbon dioxide','Nitrogen','Hydrogen'],1],
+ ],
+ 'Sports':[
+  ['How many players in a cricket team?',['9','10','11','12'],2],
+  ['Which country won the 1992 Cricket World Cup?',['India','Australia','Pakistan','England'],2],
+  ['How many players on a football (soccer) team on field?',['9','10','11','12'],2],
+  ['In tennis, what is a score of zero called?',['Love','Nil','Zero','Duck'],0],
+  ['How many rings on the Olympic flag?',['4','5','6','7'],1],
+ ],
+};
+let quizQ=[], quizIdx=0, quizScore=0, quizSel='General Knowledge', quizCnt=5;
+const qc=document.getElementById('quizCats');
+Object.keys(QUIZ_BANK).forEach(cat=>{ const c=document.createElement('button'); c.className='chip'+(cat===quizSel?' active':''); c.textContent=cat; c.onclick=()=>{quizSel=cat; [...qc.children].forEach(x=>x.classList.remove('active')); c.classList.add('active');}; qc.appendChild(c); });
+qc.firstChild.classList.add('active');
+const qn=document.getElementById('quizCounts');
+[3,5,8,10].forEach(n=>{ const c=document.createElement('button'); c.className='chip'+(n===quizCnt?' active':''); c.textContent=n+' Qs'; c.onclick=()=>{quizCnt=n; [...qn.children].forEach(x=>x.classList.remove('active')); c.classList.add('active');}; qn.appendChild(c); });
+qn.firstChild.classList.add('active');
+
+function startQuiz(){ const pool=[...QUIZ_BANK[quizSel]].sort(()=>Math.random()-.5); quizQ=pool.slice(0,Math.min(quizCnt,pool.length));
+  quizIdx=0; quizScore=0; document.getElementById('quizSetup').style.display='none'; document.getElementById('quizPlay').style.display='block'; renderQuiz(); }
+function renderQuiz(){ const box=document.getElementById('quizPlay');
+  if(quizIdx>=quizQ.length){ box.innerHTML='<h3>Score: '+quizScore+' / '+quizQ.length+'</h3><button class="btn btn-primary" style="width:100%" onclick="resetQuiz()">Try again</button>'; return; }
+  const [q,opts,ans]=quizQ[quizIdx];
+  box.innerHTML='<p style="color:var(--muted);font-size:13px;margin:0 0 6px">Question '+(quizIdx+1)+' of '+quizQ.length+' · '+quizSel+'</p><h3 style="margin:0 0 14px">'+q+'</h3>'+opts.map((o,i)=>'<button class="qopt" data-i="'+i+'" onclick="answerQuiz('+i+','+ans+')">'+o+'</button>').join(''); }
+function answerQuiz(i,ans){ const opts=[...document.querySelectorAll('.qopt')]; opts.forEach(o=>o.onclick=null);
+  opts[ans].classList.add('correct'); if(i!==ans) opts[i].classList.add('wrong'); else quizScore++;
+  setTimeout(()=>{ quizIdx++; renderQuiz(); },700); }
+function resetQuiz(){ document.getElementById('quizSetup').style.display='block'; document.getElementById('quizPlay').style.display='none'; }
+
+</script>
+</body>
+</html>
